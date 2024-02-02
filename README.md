@@ -7,8 +7,9 @@ The project that I propose to design will be some sort of
 **virtual** stock market simulator. In the program, the user
 will be able to manage a set amount of funds (ex. $10,000), 
 and they will be able to choose from some set amount of stocks 
-to **purchase** and **sell**. The market will change according to what's
-happening in the real world. 
+to **purchase** and **sell**. The market will change according to
+a database of past stock history, so that there
+will be **no calls to any external systems**.
 
 People who use this program may be beginners looking to get in
 the stock market that aren't fully confident to invest yet, 
