@@ -2,11 +2,11 @@ package model;
 
 public class Stock {
 
-    // Represents a stock with a symbol, price, and amount of shares
+    // Represents a stock with a symbol, price, and amount of shares, with amount 0
     private String name;
     private String symbol;
     private double price;
-    private int amount;
+    private int amount = 0;
 
     // REQUIRES: symbol is not blank, price > 0, amount > 0
     // EFFECTS: constructs stock with given symbol and price
@@ -40,13 +40,15 @@ public class Stock {
         return symbol + "," + amount * price;
     }
 
+    // REQUIRES: amountBought > 0
     // EFFECTS: adds amount to stock in user's portfolio
     public void addStock(int amountBought) {
         amount = amount + amountBought;
     }
 
+    // REQUIRES: amountSold > 0
     // EFFECTS: subtracts amount to stock in user's portfolio
-    public void subtractStock(int amountBought) {
-        amount = amount - amountBought;
+    public void subtractStock(int amountSold) {
+        amount = amount - amountSold;
     }
 }
