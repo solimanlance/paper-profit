@@ -37,19 +37,44 @@ public class Trader {
         return funds;
     }
 
+    // resets nextAccountId for testing purposes
+    public void resetNextAccountId() {
+        nextAccountId = 0;
+    }
+
+    // for testing purposes
+    public int getPortfolioSize() {
+        return portfolio.size();
+    }
+
+    // returns total portfolio value for testing
+    public double getPortfolioValue() {
+        double total = 0;
+        for (Stock s : portfolio) {
+            total += s.getAmount() * s.getPrice();
+        }
+        return total;
+    }
+
+
     // REQUIRES: funds >= stock price * buyAmount
     // MODIFIES: this
     // EFFECTS: stock is bought and updated in portfolio, user funds are updated
     public void buyStock(Stock stock, int buyAmount) {
         double price = stock.getPrice() * buyAmount;
         funds -= price;
+        boolean stockInPortfolio = false;
         for (Stock s : portfolio) {
-            if (s.getSymbol() == stock.getSymbol()) {
-                stock.addStock(buyAmount);
+            if (stock.getSymbol().equals(s.getSymbol())) {
+                s.addStock(buyAmount);
+                stockInPortfolio = true;
+                break;
             }
         }
-        stock.setAmount(buyAmount);
-        portfolio.add(stock);
+        if (!stockInPortfolio) {
+            stock.setAmount(buyAmount);
+            portfolio.add(stock);
+        }
     }
 
     // REQUIRES: sellAmount <= s.getAmount()
@@ -59,7 +84,7 @@ public class Trader {
         double price = stock.getPrice() * sellAmount;
         funds += price;
         for (Stock s : portfolio) {
-            if (s.getSymbol() == stock.getSymbol()) {
+            if (s.getSymbol().equals(stock.getSymbol())) {
                 stock.subtractStock(sellAmount);
                 if (s.getAmount() - sellAmount == 0) {
                     portfolio.remove(stock);
