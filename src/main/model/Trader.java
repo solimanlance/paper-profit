@@ -1,5 +1,6 @@
 package model;
 
+import javax.sound.sampled.Port;
 import java.util.ArrayList;
 
 // Represents a stock trader having an id, name, portfolio of stock, and funds in dollars.
@@ -7,14 +8,14 @@ public class Trader {
     private static int nextAccountId = 0;
     private int id;
     private String name;
-    private ArrayList<Stock> portfolio;
+    private Portfolio portfolio;
     private double funds;
     private static final int initialFunds = 5000;
 
     // REQUIRES: name is not blank
     // EFFECTS: constructs a new trader with their name, an empty list of stocks,
     // a unique id, and initial funds (set to 5000 dollars)
-    public Trader(String name, ArrayList<Stock> portfolio) {
+    public Trader(String name, Portfolio portfolio) {
         this.name = name;
         this.portfolio = portfolio;
         this.id = nextAccountId++;
@@ -25,9 +26,6 @@ public class Trader {
         return name;
     }
 
-    public ArrayList<Stock> getPortfolio() {
-        return portfolio;
-    }
 
     public int getId() {
         return id;
@@ -42,18 +40,14 @@ public class Trader {
         nextAccountId = 0;
     }
 
-    // for testing purposes
-    public int getPortfolioSize() {
-        return portfolio.size();
-    }
-
     // returns total portfolio value for testing
     public double getPortfolioValue() {
-        double total = 0;
-        for (Stock s : portfolio) {
-            total += s.getAmount() * s.getPrice();
-        }
-        return total;
+        return portfolio.getPortfolioValue();
+    }
+
+    // for testing purposes
+    public int getPortfolioSize() {
+        return portfolio.getSize();
     }
 
 
@@ -63,18 +57,7 @@ public class Trader {
     public void buyStock(Stock stock, int buyAmount) {
         double price = stock.getPrice() * buyAmount;
         funds -= price;
-        boolean stockInPortfolio = false;
-        for (Stock s : portfolio) {
-            if (stock.getSymbol().equals(s.getSymbol())) {
-                s.addStock(buyAmount);
-                stockInPortfolio = true;
-                break;
-            }
-        }
-        if (!stockInPortfolio) {
-            stock.setAmount(buyAmount);
-            portfolio.add(stock);
-        }
+        portfolio.addStock(stock, buyAmount);
     }
 
     // REQUIRES: sellAmount <= s.getAmount()
@@ -83,13 +66,6 @@ public class Trader {
     public void sellStock(Stock stock, int sellAmount) {
         double price = stock.getPrice() * sellAmount;
         funds += price;
-        for (Stock s : portfolio) {
-            if (s.getSymbol().equals(stock.getSymbol())) {
-                stock.subtractStock(sellAmount);
-                if (s.getAmount() - sellAmount == 0) {
-                    portfolio.remove(stock);
-                }
-            }
-        }
+        portfolio.subtractStock(stock, sellAmount);
     }
 }
