@@ -42,7 +42,7 @@ public class Trader {
 
     // returns total portfolio value for testing
     public double getPortfolioValue() {
-        return portfolio.getPortfolioValue();
+        return portfolio.getValue();
     }
 
     // for testing purposes

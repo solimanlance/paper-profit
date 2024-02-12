@@ -21,7 +21,7 @@ public class Portfolio {
 
 
     // returns total portfolio value for testing
-    public double getPortfolioValue() {
+    public double getValue() {
         double total = 0;
         for (Stock s : portfolio) {
             total += s.getAmount() * s.getPrice();
