@@ -29,6 +29,16 @@ public class Portfolio {
         return total;
     }
 
+    // EFFECTS: returns stock with given symbol, if not in portfolio returns null
+    public Stock getStock(String symbol) {
+        for (Stock s : portfolio) {
+            if (s.getSymbol().equals(symbol)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     // REQUIRES: funds >= stock price * buyAmount
     // MODIFIES: this
     // EFFECTS: adds amount of stock to portfolio, adds stock to list if not already there

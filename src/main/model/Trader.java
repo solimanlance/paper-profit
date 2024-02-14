@@ -68,4 +68,11 @@ public class Trader {
         funds += price;
         portfolio.subtractStock(stock, sellAmount);
     }
+
+    // REQUIRES: amount > 0, amount <= 5000
+    // MODIFIES: this
+    // EFFECTS: adds amount of funds to trader's funds on hand
+    public void addFunds(double amount) {
+        funds += amount;
+    }
 }

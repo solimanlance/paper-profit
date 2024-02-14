@@ -74,4 +74,12 @@ class TraderTest {
         //assertEquals(trader2.getPortfolioValue(), 0);
     }
 
+    @Test
+    void testAddFunds() {
+        trader1.addFunds(4999);
+        assertEquals(trader1.getFunds(), 9999);
+        trader1.addFunds(1);
+        assertEquals(trader1.getFunds(), 10000);
+    }
+
 }

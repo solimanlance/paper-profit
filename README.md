@@ -35,3 +35,4 @@ and how much they currently cost.
 and their respective prices at the time of purchase.
 - As a user, I want to be able to view the amount of money I currently
 have in my portfolio and on hand.
+- As a user, I want to be able to add money to my total funds multiple times.
