@@ -24,6 +24,7 @@ class StockTest {
     @Test
     void testAddStock() {
         stock1.addStock(1);
+        assertEquals(stock1.getRecord(), "ABCD,50.0");
         assertEquals(stock1.getAmount(), 1);
         stock1.addStock(7);
         assertEquals(stock1.getAmount(), 8);

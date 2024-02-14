@@ -3,7 +3,6 @@ package model;
 public class Stock {
 
     // Represents a stock with a symbol, price, and amount of shares, with amount 0
-    private String name;
     private String symbol;
     private double price;
     private int amount = 0;
@@ -23,9 +22,6 @@ public class Stock {
         return price;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public int getAmount() {
         return amount;

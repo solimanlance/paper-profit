@@ -2,14 +2,17 @@ package model;
 
 import java.util.ArrayList;
 
+// Represents a stock traders portfolio
 public class Portfolio {
 
     ArrayList<Stock> portfolio;
 
+    // EFFECTS: constructs an empty arraylist as a portfolio for the trader
     public Portfolio() {
         this.portfolio = new ArrayList<Stock>();
     }
 
+    // EFFECTS: returns portfolio as an arraylist
     public ArrayList<Stock> getPortfolio() {
         return portfolio;
     }

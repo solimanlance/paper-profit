@@ -75,4 +75,6 @@ public class Trader {
     public void addFunds(double amount) {
         funds += amount;
     }
+
+
 }

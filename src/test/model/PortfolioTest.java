@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -63,6 +65,23 @@ class PortfolioTest {
         trader2.sellStock(stock2, 3);
         assertEquals(portfolio2.getSize(), 1);
         assertEquals(portfolio2.getValue(), 0);
+    }
+
+    @Test
+    void testGetStock() {
+        trader2.buyStock(stock2,2);
+        assertEquals(portfolio2.getStock("AAAA"), stock2);
+        assertNull(portfolio2.getStock("qfef"));
+    }
+
+    @Test
+    void testGetPortfolio() {
+        ArrayList<Stock> portfolioCopy = new ArrayList<>();
+        assertEquals(portfolio1.getPortfolio(), portfolioCopy);
+        portfolioCopy.add(stock1);
+        trader1.buyStock(stock1,2);
+        assertEquals(portfolio1.getPortfolio(), portfolioCopy);
+
     }
 
 }
