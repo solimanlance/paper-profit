@@ -26,6 +26,9 @@ public class Portfolio {
     // returns total portfolio value for testing
     public double getValue() {
         double total = 0;
+        if (this.getSize() == 0) {
+            return 0;
+        }
         for (Stock s : portfolio) {
             total += s.getAmount() * s.getPrice();
         }
@@ -69,8 +72,9 @@ public class Portfolio {
         for (Stock s : portfolio) {
             if (s.getSymbol().equals(stock.getSymbol())) {
                 stock.subtractStock(sellAmount);
-                if (s.getAmount() - sellAmount == 0) {
+                if (s.getAmount() == 0) {
                     portfolio.remove(stock);
+                    break;
                 }
             }
         }

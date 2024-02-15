@@ -56,14 +56,14 @@ class PortfolioTest {
 
     }
 
-    @Test
+   @Test
     void testSubtractStock() {
         trader2.sellStock(stock2, 2);
         assertEquals(portfolio2.getSize(), 1);
         assertEquals(portfolio2.getValue(), 60);
 
         trader2.sellStock(stock2, 3);
-        assertEquals(portfolio2.getSize(), 1);
+        assertEquals(portfolio2.getSize(), 0);
         assertEquals(portfolio2.getValue(), 0);
     }
 

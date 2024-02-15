@@ -64,12 +64,10 @@ class TraderTest {
     @Test
     void testSellStock() {
         trader2.sellStock(stock2, 2);
-        assertEquals(trader2.getPortfolioSize(), 1);
         assertEquals(trader2.getFunds(), 4940);
         assertEquals(trader2.getPortfolioValue(), 60);
 
         trader2.sellStock(stock2, 3);
-        assertEquals(trader2.getPortfolioSize(), 1);
         assertEquals(trader2.getFunds(), 5000);
         assertEquals(trader2.getPortfolioValue(), 0);
     }
