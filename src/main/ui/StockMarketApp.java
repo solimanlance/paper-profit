@@ -79,7 +79,7 @@ public class StockMarketApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes stocks + trader?
+    // EFFECTS: initializes stocks + trader
     private void init(String username) {
         portfolio = new Portfolio();
         trader = new Trader(username, portfolio);
