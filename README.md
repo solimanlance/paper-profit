@@ -25,14 +25,18 @@ interesting features can be added as I see fit.
 
 ## User Stories
 - As a user, I want to be able to add a **stock** to my **portfolio** 
-and specify the amount of stock bought.
+and specify the amount of stock bought. ✔
 - As a user, I want to be able to sell stocks from my portfolio
-and specify the amount of stock sold.
+and specify the amount of stock sold. ✔
 - As a user, I want to **view** my purchased stocks in my portfolio 
-and how much they currently cost.
+and how much they currently cost. ✔
 - As a user, I want to view my purchase and sell history.
 - As a user, I want to be able to view a list of stocks available to buy 
-and their respective prices at the time of purchase.
+and their respective prices at the time of purchase. ✔
 - As a user, I want to be able to view the amount of money I currently
-have in my portfolio and on hand.
-- As a user, I want to be able to add money to my total funds multiple times.
+have in my portfolio and on hand. ✔
+- As a user, I want to be able to add money to my total funds multiple times. ✔
+- As a user, when I select the quit option from the command menu, I want to be reminded to save
+my portfolio to file and have the option to not. 
+- As a user, when I start the application, I want to be given the option to load my 
+portfolio from file

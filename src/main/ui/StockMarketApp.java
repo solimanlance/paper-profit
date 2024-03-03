@@ -155,6 +155,7 @@ public class StockMarketApp {
         for (Stock s : portfolio.getPortfolio()) {
             System.out.println("\t" + s.getSymbol() + ", " + s.getPrice() + " AMOUNT: " + s.getAmount());
         }
+        System.out.println("\tVALUE: " + portfolio.getValue());
         System.out.println("\n");
     }
 

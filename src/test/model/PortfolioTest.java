@@ -72,6 +72,9 @@ class PortfolioTest {
 
         trader2.sellStock(stock3, 2);
         assertEquals(portfolio2.getSize(), 2);
+
+        trader2.sellStock(stock1, 2);
+       assertEquals(portfolio2.getSize(), 1);
     }
 
     @Test
