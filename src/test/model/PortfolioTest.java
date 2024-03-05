@@ -15,11 +15,13 @@ class PortfolioTest {
     Stock stock3 = new Stock("GME", 10);
     Portfolio portfolio1 = new Portfolio();
     Portfolio portfolio2 = new Portfolio();
-    Trader trader1 = new Trader("John", portfolio1);
-    Trader trader2 = new Trader("Lance", portfolio2);
+    Trader trader1 = new Trader("John");
+    Trader trader2 = new Trader("Lance");
 
     @BeforeEach
     void runBefore() {
+        trader1.setPortfolio(portfolio1);
+        trader2.setPortfolio(portfolio2);
         trader2.buyStock(stock2, 5);
         // reset next account id's to avoid getting wrong id's in tests
         trader1.resetNextAccountId();
@@ -33,7 +35,6 @@ class PortfolioTest {
 
     @Test
     void testAddStock() {
-        assertEquals(trader1.getPortfolioSize(), 0);
         trader1.buyStock(stock1,2);
         assertEquals(portfolio1.getSize(), 1);
         assertEquals(portfolio1.getValue(), 300);

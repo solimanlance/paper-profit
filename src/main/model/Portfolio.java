@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // Represents a stock traders portfolio
@@ -21,7 +24,6 @@ public class Portfolio {
     public int getSize() {
         return portfolio.size();
     }
-
 
     // returns total portfolio value for testing
     public double getValue() {
@@ -63,6 +65,12 @@ public class Portfolio {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds amount of stock to portfolio after being read from json
+    public void addStock(Stock stock) {
+        portfolio.add(stock);
+    }
+
 
     // REQUIRES: sellAmount <= s.getAmount()
     // MODIFIES: this
@@ -79,7 +87,6 @@ public class Portfolio {
             }
         }
     }
-
 
 
 }

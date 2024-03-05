@@ -1,6 +1,9 @@
 package model;
 
-public class Stock {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public class Stock implements Writable {
 
     // Represents a stock with a symbol, price, and amount of shares, with amount 0
     private String symbol;
@@ -48,4 +51,13 @@ public class Stock {
     public void subtractStock(int amountSold) {
         amount = amount - amountSold;
     }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("symbol", symbol);
+        json.put("price", price);
+        json.put("amount", amount);
+        return json;
+    }
+
 }

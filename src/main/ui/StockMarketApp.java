@@ -3,22 +3,27 @@ package ui;
 import model.Portfolio;
 import model.Stock;
 import model.Trader;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
-import java.sql.Array;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 // Stock market application
 public class StockMarketApp {
-    private Portfolio portfolio;
     private Trader trader;
     private Stock stock1;
     private Stock stock2;
     private Stock stock3;
     private ArrayList<Stock> stockList;
     private Scanner input;
+    private String jsonPath;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
 
     public StockMarketApp() {
         askForName();
@@ -33,6 +38,10 @@ public class StockMarketApp {
         name = input.next();
 
         System.out.println("Welcome, " + name);
+        this.jsonPath = "./data/" + name + ".json";
+        jsonWriter = new JsonWriter(jsonPath);
+        jsonReader = new JsonReader(jsonPath);
+
         runStockMarket(name);
     }
 
@@ -81,8 +90,7 @@ public class StockMarketApp {
     // MODIFIES: this
     // EFFECTS: initializes stocks + trader
     private void init(String username) {
-        portfolio = new Portfolio();
-        trader = new Trader(username, portfolio);
+        trader = new Trader(username);
         input = new Scanner(System.in);
 
         stock1 = new Stock("AMZN", 150 + getFluctuation());
@@ -105,13 +113,12 @@ public class StockMarketApp {
 
     // EFFECTS: displays commands to user
     private void displayMenu() {
-        System.out.println("Input command:");
-        System.out.println("\tvm -> view market");
-        System.out.println("\tvf -> view funds");
-        System.out.println("\tvp -> view portfolio");
-        System.out.println("\tb -> buy stock");
-        System.out.println("\ts -> sell stock");
-        System.out.println("\ta -> add funds");
+        System.out.println("==============================================================");
+        System.out.println("Input command:\n");
+        System.out.println("\tvm -> view market | vf -> view funds | vp -> view portfolio\n");
+        System.out.println("\t   b -> buy stock | s -> sell stock  | a -> add funds\n");
+        System.out.println("\t   sv -> save     | ld -> load       | q -> quit\n");
+        System.out.println("==============================================================");
     }
 
     // MODIFIES: this
@@ -129,7 +136,10 @@ public class StockMarketApp {
             sellStock();
         } else if (command.equals("a")) {
             addFunds();
-            System.out.println("sup");
+        } else if (command.equals("sv")) {
+            saveTrader();
+        } else if (command.equals("ld")) {
+            loadTrader();
         } else {
             System.out.println("not a valid command");
         }
@@ -152,10 +162,10 @@ public class StockMarketApp {
     // EFFECTS: displays users portfolio
     private void viewPortfolio() {
         System.out.println("PORTFOLIO: \n");
-        for (Stock s : portfolio.getPortfolio()) {
+        for (Stock s : trader.getPortfolioStocks()) {
             System.out.println("\t" + s.getSymbol() + ", " + s.getPrice() + " AMOUNT: " + s.getAmount());
         }
-        System.out.println("\tVALUE: " + portfolio.getValue());
+        System.out.println("\tVALUE: " + trader.getPortfolio().getValue());
         System.out.println("\n");
     }
 
@@ -193,7 +203,7 @@ public class StockMarketApp {
 
         for (Stock s : stockList) {
             if (s.getSymbol().equals(stockSymbol)) {
-                if (amountShares > portfolio.getStock(stockSymbol).getAmount()) {
+                if (amountShares > trader.getPortfolio().getStock(stockSymbol).getAmount()) {
                     System.out.println("Too much!");
                 } else {
                     trader.sellStock(stockList.get(counter), amountShares);
@@ -213,5 +223,30 @@ public class StockMarketApp {
         double newFunds = trader.getFunds() + amount;
         trader.addFunds(amount);
         System.out.println("Your new balance is $" + newFunds);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: saves trader state to file
+    private void saveTrader() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(trader);
+            jsonWriter.close();
+            System.out.println("Saved " + trader.getName() + " to " + jsonPath);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + jsonPath);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads trader state from file
+    private void loadTrader() {
+        try {
+            trader = jsonReader.read();
+            System.out.println("Welcome " + trader.getName() + "!");
+            System.out.println("Loaded from" + jsonPath);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + jsonPath);
+        }
     }
 }

@@ -11,8 +11,8 @@ class TraderTest {
     Stock stock1 = new Stock("GOOG", 150);
     Stock stock2 = new Stock("AAAA", 20);
     Stock stock3 = new Stock("GME", 10);
-    Trader trader1 = new Trader("John", new Portfolio());
-    Trader trader2 = new Trader("Lance", new Portfolio());
+    Trader trader1 = new Trader("John");
+    Trader trader2 = new Trader("Lance");
 
     @BeforeEach
     void runBefore() {
