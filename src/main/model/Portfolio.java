@@ -84,9 +84,9 @@ public class Portfolio {
     public void subtractStock(Stock stock, int sellAmount) {
         for (Stock s : portfolio) {
             if (s.getSymbol().equals(stock.getSymbol())) {
-                stock.subtractStock(sellAmount);
+                s.subtractStock(sellAmount);
                 if (s.getAmount() == 0) {
-                    portfolio.remove(stock);
+                    portfolio.remove(s);
                     break;
                 }
             }
