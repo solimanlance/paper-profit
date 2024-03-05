@@ -38,7 +38,7 @@ public class StockMarketApp {
         name = input.next();
 
         System.out.println("Welcome, " + name);
-        this.jsonPath = "./data/" + name + ".json";
+        this.jsonPath = "./data/" + name + "-save.json";
         jsonWriter = new JsonWriter(jsonPath);
         jsonReader = new JsonReader(jsonPath);
 
