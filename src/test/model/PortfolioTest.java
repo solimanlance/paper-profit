@@ -46,6 +46,13 @@ class PortfolioTest {
     }
 
     @Test
+    void testAddStockOther() {
+        portfolio1.addStock(stock1);
+        assertEquals(portfolio1.getSize(), 1);
+        assertEquals(portfolio1.get(0), stock1);
+    }
+
+    @Test
     void testAddOwnedStock() {
         assertEquals(portfolio2.getSize(), 1);
         trader2.buyStock(stock2,2);

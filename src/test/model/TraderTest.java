@@ -25,6 +25,7 @@ class TraderTest {
     @Test
     void testConstructor() {
        assertEquals(trader1.getPortfolioSize(), 0);
+       assertEquals(trader1.getPortfolioStocks().size(), 0);
        assertEquals(trader1.getName(), "John");
        assertEquals(trader1.getFunds(), 5000);
        assertEquals(trader2.getId(), 1);
@@ -70,6 +71,7 @@ class TraderTest {
         trader2.sellStock(stock2, 3);
         assertEquals(trader2.getFunds(), 5000);
         assertEquals(trader2.getPortfolioValue(), 0);
+        assertEquals(trader2.getPortfolio().getSize(), 0);
     }
 
     @Test
@@ -78,6 +80,10 @@ class TraderTest {
         assertEquals(trader1.getFunds(), 9999);
         trader1.addFunds(1);
         assertEquals(trader1.getFunds(), 10000);
+
+        trader1.setFunds(10);
+        assertEquals(trader1.getFunds(), 10);
     }
+
 
 }

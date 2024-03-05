@@ -25,6 +25,11 @@ public class Portfolio {
         return portfolio.size();
     }
 
+    // for testing purposes
+    public Stock get(int i) {
+        return portfolio.get(i);
+    }
+
     // returns total portfolio value for testing
     public double getValue() {
         double total = 0;

@@ -1,0 +1,16 @@
+{
+   "portfolio": [
+      {
+         "symbol": "AMZN",
+         "amount": 3,
+         "price": 150
+      },
+      {
+         "symbol": "NVDA",
+         "amount": 2,
+         "price": 700
+      }
+   ],
+   "name": "writer",
+   "funds": 5000
+}
