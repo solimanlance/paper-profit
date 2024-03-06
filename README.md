@@ -36,7 +36,7 @@ and their respective prices at the time of purchase. ✔
 - As a user, I want to be able to view the amount of money I currently
 have in my portfolio and on hand. ✔
 - As a user, I want to be able to add money to my total funds multiple times. ✔
-- As a user, when I select the quit option from the command menu, I want to be reminded to save
-my portfolio to file and have the option to not. 
+- As a user, when I start the application, I want to be given the option to save my
+  portfolio to file ✔
 - As a user, when I start the application, I want to be given the option to load my 
-portfolio from file
+portfolio from file ✔
