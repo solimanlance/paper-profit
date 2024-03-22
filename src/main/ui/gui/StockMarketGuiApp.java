@@ -1,11 +1,11 @@
-package ui;
+package ui.gui;
 
-import model.Portfolio;
 import model.Stock;
 import model.Trader;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 // Stock market application
-public class StockMarketApp {
+public class StockMarketGuiApp extends JFrame {
+
     private Trader trader;
     private Stock stock1;
     private Stock stock2;
@@ -24,9 +25,19 @@ public class StockMarketApp {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    //
 
-    public StockMarketApp() {
-        askForName();
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 800;
+    private JFrame frame;
+    private JPanel panel;
+
+
+    public StockMarketGuiApp() {
+        super("Paper Profit");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame = new JFrame();
+        this.panel = new JPanel();
     }
 
     private void askForName() {
@@ -168,6 +179,7 @@ public class StockMarketApp {
         System.out.println("\tVALUE: " + trader.getPortfolio().getValue());
         System.out.println("\n");
     }
+
 
     // MODIFIES: this
     // EFFECTS: conducts a stock transaction
