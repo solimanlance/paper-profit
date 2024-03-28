@@ -1,12 +1,14 @@
 package ui;
 
 //import ui.gui.StockMarketGuiApp;
-import ui.gui.TitlePage;
+import ui.gui.SplashScreen;
+import ui.gui.StockMarketFrame;
 
 public class Main {
     public static void main(String[] args) {
         //new StockMarketConsoleApp();
-        new TitlePage();
+        new SplashScreen();
+        new StockMarketFrame();
     }
 
 }
