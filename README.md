@@ -30,7 +30,6 @@ and specify the amount of stock bought. ✔
 and specify the amount of stock sold. ✔
 - As a user, I want to **view** my purchased stocks in my portfolio 
 and how much they currently cost. ✔
-- As a user, I want to view my purchase and sell history.
 - As a user, I want to be able to view a list of stocks available to buy 
 and their respective prices at the time of purchase. ✔
 - As a user, I want to be able to view the amount of money I currently
@@ -40,6 +39,7 @@ have in my portfolio and on hand. ✔
   portfolio to file ✔
 - As a user, when I start the application, I want to be given the option to load my 
 portfolio from file ✔
+- As a user, when I start the application, I want to see a splash screen before the application runs! ✔
 
 # Instructions for Grader
 - You can generate the first required action related to the user story 
