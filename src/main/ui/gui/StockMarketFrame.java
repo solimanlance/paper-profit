@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-// Stock market GUI application
+// stock market GUI application
 public class StockMarketFrame extends JFrame implements ActionListener {
     private static final int WIDTH = 700;
     private static final int HEIGHT = 500;
@@ -17,6 +17,7 @@ public class StockMarketFrame extends JFrame implements ActionListener {
     private CardLayout cardLayout;
     private JLabel userBalance;
     private JLabel dynamicText;
+    private ViewPortfolioPage portfolioPage;
     private Trader trader;
     private Stock stock1;
     private Stock stock2;
@@ -33,11 +34,10 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         // persistent elements here:
         JLabel mainTitle = new JLabel("Stock Manager", SwingConstants.CENTER);
         JLabel projectLabel = new JLabel("a CPSC 210 project", SwingConstants.CENTER);
-        userBalance = new JLabel("$" + "5000.00", SwingConstants.CENTER);
+        userBalance = new JLabel("$" + "5000.00", SwingConstants.CENTER); // set for initial state
 
 
         addPanels();
-        //getContentPane().add(cardPanel, BorderLayout.NORTH); // adds panels to frame
         this.setLayout(new GridBagLayout());
         addComponentToGrid(cardPanel, 150, 10, 0);
 
@@ -78,17 +78,18 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
+        this.portfolioPage = new ViewPortfolioPage(this);
         cardPanel.add(new LoginPage(this), "View Market");
         cardPanel.add(new ViewStockPage(this), "View Market");
-        cardPanel.add(new ViewPortfolioPage(), "View Portfolio");
+        cardPanel.add(portfolioPage, "View Portfolio");
         cardPanel.add(new BuyPage(this), "Buy Stock");
         cardPanel.add(new SellPage(this), "Sell Stock");
-        cardPanel.add(new AddFundsPage(), "Add Funds");
-        cardPanel.add(new SavePage(), "Save/Load");
+        cardPanel.add(new AddFundsPage(this), "Add Funds");
+        cardPanel.add(new SavePage(this), "Save/Load");
     }
 
     // MODIFIES: this
-    // EFFECTS: adds view menu buttons
+    // EFFECTS: adds view menu buttons to menu bar
     private void addViewMenuButtons(JMenu menu) {
         JMenuItem viewMarketButton = new JMenuItem("View Market");
         JMenuItem viewPortfolioButton = new JMenuItem("View Portfolio");
@@ -101,7 +102,7 @@ public class StockMarketFrame extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds manage menu buttons
+    // EFFECTS: adds manage menu buttons to menu bar
     private void addManageMenuButtons(JMenu menu) {
         JMenuItem viewBuyButton = new JMenuItem("Buy Stock");
         JMenuItem viewSellButton = new JMenuItem("Sell Stock");
@@ -118,7 +119,7 @@ public class StockMarketFrame extends JFrame implements ActionListener {
 
 
     // MODIFIES: this
-    // EFFECTS: sets fonts
+    // EFFECTS: sets fonts to elements that need special font styles
     private void setFonts(JLabel mainTitle, JLabel userBalance, JLabel projectLabel) {
         mainTitle.setFont(new Font("Helvetica Neue", Font.ITALIC,14));
         userBalance.setFont(new Font("Helvetica Neue", Font.BOLD, 40));
@@ -155,6 +156,10 @@ public class StockMarketFrame extends JFrame implements ActionListener {
             JMenuItem menuItem = (JMenuItem) e.getSource();
             String menuText = menuItem.getText();
 
+            if (menuText == "View Portfolio") {
+                portfolioPage.updateStockLabels();
+            }
+
             cardLayout.show(cardPanel, menuText);
             dynamicText.setText("Welcome, " + trader.getName() + ".");
         } else {
@@ -186,6 +191,8 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         this.trader = trader;
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes stock market
     public void setMarket(Stock s1, Stock s2, Stock s3) {
         stock1 = s1;
         stock2 = s2;
@@ -197,6 +204,8 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         stockList.add(s3);
     }
 
+    // MODIFIES: this
+    // EFFECTS: conducts a stock being bought
     public void buyStock(String symbol, int amount) {
         int counter = 0;
         boolean foundSymbol = false;
@@ -218,6 +227,8 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: conducts a stock being sold
     public void sellStock(String symbol, int amount) {
         int counter = 0;
         boolean foundSymbol = false;
@@ -227,6 +238,7 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         for (Stock s : stockList) {
             if (s.getSymbol().equals(symbol)) {
                 if (amount > trader.getPortfolio().getStock(symbol).getAmount()) {
+                    foundSymbol = true; // just to not get below error
                     errorMessage("too much", "Not Enough Shares owned");
                 } else {
                     dynamicText.setText(amount + " stocks of " + symbol + " successfully sold.");
@@ -242,10 +254,26 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds funds to user balance
+    public void addFunds(double amount) {
+        trader.addFunds(amount);
+        dynamicText.setText("Successfully added $" + String.format("%.2f",amount) + " to account.");
+    }
+
 
     // MODIFIES: this
     // EFFECTS: updates user balance label
     public void updateUserBalance() {
         userBalance.setText("$" + String.format("%.2f",trader.getFunds())); // rounds to 2 decimal places
     }
+
+    public Trader getTrader() {
+        return trader;
+    }
+
+    public void setDynamicText(String msg) {
+        dynamicText.setText(msg);
+    }
+
 }

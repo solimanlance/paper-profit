@@ -62,7 +62,7 @@ public class ViewStockPage extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS:  initializes stocks with random fluctuation
+    // EFFECTS: initializes stocks with random fluctuation
     private void initStocks() {
         stock1 = new Stock("AMZN", 150 + getFluctuation());
         stock2 = new Stock("META", 500 + getFluctuation());

@@ -1,35 +1,61 @@
 package ui.gui;
 
+import model.Stock;
+
 import javax.swing.*;
 import java.awt.*;
 
 // displays users portfolio
 public class ViewPortfolioPage extends JPanel {
-    private JLabel stockLabel1;
-    private JLabel stockLabel2;
-    private JLabel stockLabel3;
+    private StockMarketFrame frame;
 
-    public ViewPortfolioPage() {
-        JLabel label = new JLabel("Portfolio");
+    public ViewPortfolioPage(StockMarketFrame frame) {
+        this.frame = frame;
+        JLabel label = new JLabel("Portfolio", SwingConstants.CENTER);
         label.setFont(new Font("Helvetica Neue", Font.BOLD,25));
 
         setLayout(new GridBagLayout());
 
-        addComponentToGridWithX(label, 0,2,0,0);
-        addStockLabels();
+        addComponentToGridWithX(label, 0,3,0,0);
+        updateStockLabels();
 
     }
 
-    // TODO add logic
     // MODIFIES: this
     // EFFECTS: initializes stock labels and adds to grid
-    private void addStockLabels() {
-        stockLabel1 = new JLabel("Stock 1");
-        stockLabel2 = new JLabel("Stock 2");
-        stockLabel3 = new JLabel("Stock 3");
-        addComponentToGridWithX(stockLabel1, 0,1,0,1);
-        addComponentToGridWithX(stockLabel2, 0,1,0,2);
-        addComponentToGridWithX(stockLabel3, 0,1,0,3);
+    public void updateStockLabels() {
+        removeAll();
+        setTitle();
+        if (frame.getTrader() != null && frame.getTrader().getPortfolioSize() != 0) {
+            JLabel total = new JLabel("Portfolio Value: $"
+                    +  String.format("%.2f", frame.getTrader().getPortfolioValue()), SwingConstants.CENTER);
+            int counter = 1;
+            for (Stock s : frame.getTrader().getPortfolioStocks()) {
+                JLabel stockLabel = new JLabel(s.getSymbol(), SwingConstants.CENTER);
+                JLabel price = new JLabel("$" + Double.toString(s.getPrice()), SwingConstants.CENTER);
+                JLabel amount = new JLabel(Integer.toString(s.getAmount()) + " share(s);", SwingConstants.CENTER);
+                if (counter == 1) {
+                    addComponentToGridWithX(stockLabel, 20, 1, 0, 1);
+                    addComponentToGridWithX(amount, 20, 1, 1, 1);
+                    addComponentToGridWithX(price, 20, 1, 2, 1);
+                } else {
+                    addComponentToGridWithX(stockLabel, 0, 1, 0, counter);
+                    addComponentToGridWithX(amount, 0, 1, 1, counter);
+                    addComponentToGridWithX(price, 0, 1, 2, counter);
+                }
+                counter++;
+            }
+            addComponentToGridWithX(total, 20, 3, 0, counter + 1);
+        }
+    }
+
+    private void setTitle() {
+        JLabel label = new JLabel("Portfolio", SwingConstants.CENTER);
+        label.setFont(new Font("Helvetica Neue", Font.BOLD,25));
+
+        setLayout(new GridBagLayout());
+
+        addComponentToGridWithX(label, 0,3,0,0);
     }
 
     // MODIFIES: this
@@ -40,7 +66,7 @@ public class ViewPortfolioPage extends JPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.insets = new Insets(topInset, 0, 0, 0);
         constraints.gridwidth = gridWidth;
-        constraints.weightx = 0.5; // distribute weight equally
+        constraints.weightx = 1; // distribute weight equally
         constraints.weighty = 1;
         constraints.gridx = gridX; // always in first column
         constraints.gridy = gridY;

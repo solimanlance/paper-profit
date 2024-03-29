@@ -3,7 +3,7 @@ package ui.gui;
 import javax.swing.*;
 import java.awt.*;
 
-// Displays loading screen
+// displays loading screen gif
 public class SplashScreen {
     private JWindow splashScreen;
 
@@ -12,7 +12,7 @@ public class SplashScreen {
         showSplashScreen();
 
         try {
-            Thread.sleep(50); // shows splash screen for 3 seconds
+            Thread.sleep(3000); // shows splash screen for 3 seconds
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

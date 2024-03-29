@@ -1,29 +1,36 @@
 package ui.gui;
 
+import model.Trader;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-// save page panel
-public class SavePage extends JPanel implements FocusListener {
+
+// save/load page panel
+public class SavePage extends JPanel {
+    private StockMarketFrame frame;
     private String defaultNameText = "Enter Name:";
-    private JTextField nameField;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
-    public SavePage()  {
+    public SavePage(StockMarketFrame frame)  {
+        this.frame = frame;
         JLabel label = new JLabel("Save/Load", SwingConstants.CENTER);
-        nameField = new JTextField(16);
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
 
-        addListeners(); // for greyed text
-        setGhostText(); // setting ui of ghost text
         setLayout(new GridBagLayout());
 
         this.addComponentToGridWithX(label, 0, 2, 0,0);
-        this.addComponentToGridWithX(nameField,0,2,0,2);
         this.addComponentToGridWithX(saveButton,0,1,0,5);
         this.addComponentToGridWithX(loadButton,0,1,1,5);
+        saveButton.addActionListener(createSaveButtonListener());
+        loadButton.addActionListener(createLoadButtonListener());
 
         setFonts(label, saveButton);
     }
@@ -44,47 +51,54 @@ public class SavePage extends JPanel implements FocusListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets text and font colour of ghost text in field
-    private void setGhostText() {
-        nameField.setText(defaultNameText);
-        nameField.setForeground(Color.LIGHT_GRAY);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: adds listeners to text field(s)
-    private void addListeners() {
-        nameField.addFocusListener(this);
-    }
-
-    // MODIFIES: this
     // EFFECTS: sets fonts to elements that need special fonts
     private void setFonts(JLabel label, JButton submitButton) {
         label.setFont(new Font("Helvetica Neue", Font.BOLD,25));
-        submitButton.setFont(new Font("Helvetica Neue", Font.PLAIN,12));
     }
 
     // MODIFIES: this
-    // EFFECTS: sets text field to blank if selected
-    @Override
-    public void focusGained(FocusEvent e) {
-        JTextField field = (JTextField) e.getComponent();
-        if (field == nameField && field.getText().equals(defaultNameText)) {
-            field.setText("");
-            field.setForeground(Color.BLACK);
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets text field to instruction if deselected -- ghost text
-    @Override
-    public void focusLost(FocusEvent e) {
-        JTextField field = (JTextField) e.getComponent();
-        if (field.getText().isEmpty()) {
-            if (field == nameField) {
-                field.setText(defaultNameText);
+    // EFFECTS: handles submit button press, processes save of user state
+    private ActionListener createSaveButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = frame.getTrader().getName();
+                String jsonPath = "./data/" + name + "-save.json";
+                jsonWriter = new JsonWriter(jsonPath);
+                jsonReader = new JsonReader(jsonPath);
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(frame.getTrader());
+                    jsonWriter.close();
+                    frame.setDynamicText("Saved " + frame.getTrader().getName() + " to " + jsonPath);
+                } catch (FileNotFoundException ex) {
+                    frame.errorMessage("cant find file", "File Not Found");
+                }
+                frame.updateUserBalance(); // just in case lol
             }
-            field.setForeground(Color.LIGHT_GRAY);
-        }
+        };
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles submit button press, processes load of user state from json
+    private ActionListener createLoadButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = frame.getTrader().getName();
+                String jsonPath = "./data/" + name + "-save.json";
+                jsonWriter = new JsonWriter(jsonPath);
+                jsonReader = new JsonReader(jsonPath);
+                try {
+                    Trader trader = jsonReader.read();
+                    frame.setTrader(trader);
+                    frame.setDynamicText("Loaded from " + jsonPath);
+                } catch (IOException ex) {
+                    frame.errorMessage("Cannot read from file", "IOException");
+                }
+                frame.updateUserBalance();
+            }
+        };
     }
 
 

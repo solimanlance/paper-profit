@@ -14,7 +14,6 @@ public class LoginPage extends JPanel {
     private JTextField nameField;
     private String username;
 
-    // TODO: ADD logic where buttons in menu cannot be pressed; exception?
     public LoginPage(StockMarketFrame frame) {
         this.frame = frame;
         JLabel label = new JLabel("Login", SwingConstants.CENTER);
@@ -71,6 +70,5 @@ public class LoginPage extends JPanel {
                 frame.updateUserBalance();
             }
         };
-
     }
 }

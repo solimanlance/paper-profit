@@ -2,16 +2,19 @@ package ui.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 // add funds panel
 public class AddFundsPage extends JPanel implements FocusListener {
-
+    private StockMarketFrame frame;
     private String defaultAddFundsText = "Enter Amount:";
     private JTextField addFundsTextField;
 
-    public AddFundsPage() {
+    public AddFundsPage(StockMarketFrame frame) {
+        this.frame = frame;
         JLabel label = new JLabel("Add Funds", SwingConstants.CENTER);
         addFundsTextField = new JTextField(16);
         JButton submitButton = new JButton("Submit");
@@ -25,6 +28,7 @@ public class AddFundsPage extends JPanel implements FocusListener {
         this.addComponentToGrid(submitButton,0,0,5);
 
         setFonts(label, submitButton);
+        submitButton.addActionListener(createSubmitButtonListener());
     }
 
     // MODIFIES: this
@@ -82,6 +86,26 @@ public class AddFundsPage extends JPanel implements FocusListener {
             }
             field.setForeground(Color.LIGHT_GRAY);
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles submit button press, processes addition of funds
+    private ActionListener createSubmitButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double amount = Double.valueOf(addFundsTextField.getText());
+                } catch (NumberFormatException ex) {
+                    frame.errorMessage("amount needs to be a number", "Amount Not Number");
+                }
+                double amount = Double.valueOf(addFundsTextField.getText());
+                addFundsTextField.setText("");
+
+                frame.addFunds(amount);
+                frame.updateUserBalance();
+            }
+        };
     }
 
 }
