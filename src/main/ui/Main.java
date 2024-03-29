@@ -1,6 +1,7 @@
 package ui;
 
 //import ui.gui.StockMarketGuiApp;
+import ui.console.StockMarketConsoleApp;
 import ui.gui.SplashScreen;
 import ui.gui.StockMarketFrame;
 

@@ -13,7 +13,7 @@ public class Trader implements Writable {
     private String name;
     private Portfolio portfolio;
     private double funds;
-    private static final int initialFunds = 5000;
+    private static final double initialFunds = 5000.00;
 
     // REQUIRES: name is not blank
     // EFFECTS: constructs a new trader with their name, an empty list of stocks,

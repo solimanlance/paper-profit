@@ -1,17 +1,27 @@
 package ui.gui;
 
+import model.Stock;
+import model.Trader;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 // Stock market GUI application
 public class StockMarketFrame extends JFrame implements ActionListener {
-
     private static final int WIDTH = 700;
     private static final int HEIGHT = 500;
     private JPanel cardPanel;
     private CardLayout cardLayout;
+    private JLabel userBalance;
+    private JLabel dynamicText;
+    private Trader trader;
+    private Stock stock1;
+    private Stock stock2;
+    private Stock stock3;
+    private ArrayList<Stock> stockList;
 
     public StockMarketFrame() {
         initUi();
@@ -20,12 +30,10 @@ public class StockMarketFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes user interface
     private void initUi() {
-
-        // TODO: these have to be persistent elements, that DONT change with a page change.
+        // persistent elements here:
         JLabel mainTitle = new JLabel("Stock Manager", SwingConstants.CENTER);
-        // TODO placeholder for money, replace with var later.
         JLabel projectLabel = new JLabel("a CPSC 210 project", SwingConstants.CENTER);
-        JLabel userBalance = new JLabel("$" + "100,000", SwingConstants.CENTER);
+        userBalance = new JLabel("$" + "5000.00", SwingConstants.CENTER);
 
 
         addPanels();
@@ -70,11 +78,11 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
-        cardPanel.add(new LoginPage(), "View Market");
-        cardPanel.add(new ViewStockPage(), "View Market");
+        cardPanel.add(new LoginPage(this), "View Market");
+        cardPanel.add(new ViewStockPage(this), "View Market");
         cardPanel.add(new ViewPortfolioPage(), "View Portfolio");
-        cardPanel.add(new BuyPage(), "Buy Stock");
-        cardPanel.add(new SellPage(), "Sell Stock");
+        cardPanel.add(new BuyPage(this), "Buy Stock");
+        cardPanel.add(new SellPage(this), "Sell Stock");
         cardPanel.add(new AddFundsPage(), "Add Funds");
         cardPanel.add(new SavePage(), "Save/Load");
     }
@@ -120,10 +128,10 @@ public class StockMarketFrame extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: sets grid for center elements
-    private void setGrid(JLabel mainTitle, JLabel userBalance, JLabel balanceLabel) {
+    private void setGrid(JLabel mainTitle, JLabel userBalance, JLabel projectLabel) {
         addComponentToGrid(userBalance, 50, 0, 0);
         addComponentToGrid(mainTitle, 15, 0, 0);
-        addComponentToGrid(balanceLabel, 140, 0, 1);
+        addComponentToGrid(projectLabel, 140, 0, 1);
     }
 
     // MODIFIES: this
@@ -143,9 +151,101 @@ public class StockMarketFrame extends JFrame implements ActionListener {
     // EFFECTS: shows selected panel on click
     @Override
     public void actionPerformed(ActionEvent e) {
-        JMenuItem menuItem = (JMenuItem) e.getSource();
-        String menuText = menuItem.getText();
+        if (trader != null) {
+            JMenuItem menuItem = (JMenuItem) e.getSource();
+            String menuText = menuItem.getText();
 
-        cardLayout.show(cardPanel, menuText);
+            cardLayout.show(cardPanel, menuText);
+            dynamicText.setText("Welcome, " + trader.getName() + ".");
+        } else {
+            errorMessage("login first pls", "No User Found");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: displays pop up error when something wrong is done
+    public void errorMessage(String msg, String type) {
+        JOptionPane optionPane = new JOptionPane(msg, JOptionPane.ERROR_MESSAGE);
+        JDialog dialog = optionPane.createDialog(type);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets current page to stock page after login
+    public void exitLoginPage() {
+        cardLayout.show(cardPanel, "View Market");
+
+        dynamicText = new JLabel("Welcome, " + trader.getName() + ".", SwingConstants.CENTER);
+        dynamicText.setFont(new Font("Helvetica Neue", Font.ITALIC,12));
+        dynamicText.setForeground(Color.GRAY);
+        addComponentToGrid(dynamicText, 130, 0, 0);
+    }
+
+    public void setTrader(Trader trader) {
+        this.trader = trader;
+    }
+
+    public void setMarket(Stock s1, Stock s2, Stock s3) {
+        stock1 = s1;
+        stock2 = s2;
+        stock3 = s3;
+
+        stockList = new ArrayList<>();
+        stockList.add(s1);
+        stockList.add(s2);
+        stockList.add(s3);
+    }
+
+    public void buyStock(String symbol, int amount) {
+        int counter = 0;
+        boolean foundSymbol = false;
+        for (Stock s : stockList) {
+            if (s.getSymbol().equals(symbol)) {
+                if ((s.getPrice() * amount) > trader.getFunds()) {
+                    errorMessage("too expensive", "Not Enough Funds");
+                } else {
+                    dynamicText.setText(amount + " stocks of " + symbol + " successfully bought.");
+                    trader.buyStock(stockList.get(counter), amount);
+                    foundSymbol = true;
+                }
+            }
+            counter++;
+        }
+
+        if (!foundSymbol) {
+            errorMessage("symbol not found", "Invalid Symbol");
+        }
+    }
+
+    public void sellStock(String symbol, int amount) {
+        int counter = 0;
+        boolean foundSymbol = false;
+        if (trader.getPortfolioSize() == 0) {
+            errorMessage("you own no stock", "Portfolio Empty");
+        }
+        for (Stock s : stockList) {
+            if (s.getSymbol().equals(symbol)) {
+                if (amount > trader.getPortfolio().getStock(symbol).getAmount()) {
+                    errorMessage("too much", "Not Enough Shares owned");
+                } else {
+                    dynamicText.setText(amount + " stocks of " + symbol + " successfully sold.");
+                    trader.sellStock(stockList.get(counter), amount);
+                    foundSymbol = true;
+                }
+            }
+            counter++;
+        }
+
+        if (!foundSymbol) {
+            errorMessage("symbol not found", "Invalid Symbol");
+        }
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: updates user balance label
+    public void updateUserBalance() {
+        userBalance.setText("$" + String.format("%.2f",trader.getFunds())); // rounds to 2 decimal places
     }
 }

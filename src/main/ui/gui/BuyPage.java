@@ -1,7 +1,11 @@
 package ui.gui;
 
+import model.Trader;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -12,8 +16,10 @@ public class BuyPage extends JPanel implements FocusListener {
     private String defaultAmountText = "Enter Amount:";
     private JTextField symbolTextField;
     private JTextField amountTextField;
+    private StockMarketFrame frame;
 
-    public BuyPage() {
+    public BuyPage(StockMarketFrame frame) {
+        this.frame = frame;
         JLabel label = new JLabel("Buy Stock", SwingConstants.CENTER);
         symbolTextField = new JTextField(16);
         amountTextField = new JTextField(16);
@@ -29,6 +35,7 @@ public class BuyPage extends JPanel implements FocusListener {
         this.addComponentToGrid(submitButton,0,0,5);
 
         setFonts(label, submitButton);
+        submitButton.addActionListener(createSubmitButtonListener());
     }
 
     // MODIFIES: this
@@ -96,6 +103,28 @@ public class BuyPage extends JPanel implements FocusListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: handles submit button press, processes stock purchase
+    private ActionListener createSubmitButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String symbol = symbolTextField.getText();
 
+                try {
+                    int amount = Integer.valueOf(amountTextField.getText());
+                } catch (NumberFormatException ex) {
+                    frame.errorMessage("amount needs to be a number", "Amount Not Number");
+                }
+                int amount = Integer.valueOf(amountTextField.getText());
+
+                symbolTextField.setText("");
+                amountTextField.setText("");
+
+                frame.buyStock(symbol, amount);
+                frame.updateUserBalance();
+            }
+        };
+    }
 }
 

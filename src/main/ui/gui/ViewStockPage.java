@@ -1,40 +1,46 @@
 package ui.gui;
 
+import model.Stock;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 // displays users market
 public class ViewStockPage extends JPanel {
-    private JLabel stockLabel1;
-    private JLabel stockLabel2;
-    private JLabel stockLabel3;
-    private JLabel price1;
-    private JLabel price2;
-    private JLabel price3;
+    private StockMarketFrame frame;
+    private Stock stock1;
+    private Stock stock2;
+    private Stock stock3;
 
-    public ViewStockPage() {
+    public ViewStockPage(StockMarketFrame frame) {
         JLabel label = new JLabel("Stock Market", SwingConstants.CENTER);
         label.setFont(new Font("Helvetica Neue", Font.BOLD,25));
+        this.frame = frame;
 
         setLayout(new GridBagLayout());
 
         addComponentToGridWithX(label, 0,2,0,0);
-        addStockLabels();
 
+        initStocks(); // initializes stocks
+        frame.setMarket(stock1, stock2, stock3);
+
+        addStockLabels();
     }
 
     // MODIFIES: this
     // EFFECTS: initializes stock labels and adds to grid
     private void addStockLabels() {
-        stockLabel1 = new JLabel("Stock 1", SwingConstants.CENTER);
-        stockLabel2 = new JLabel("Stock 2", SwingConstants.CENTER);
-        stockLabel3 = new JLabel("Stock 3", SwingConstants.CENTER);
+        JLabel stockLabel1 = new JLabel(stock1.getSymbol(), SwingConstants.CENTER);
+        JLabel stockLabel2 = new JLabel(stock2.getSymbol(), SwingConstants.CENTER);
+        JLabel stockLabel3 = new JLabel(stock3.getSymbol(), SwingConstants.CENTER);
         addComponentToGridWithX(stockLabel1, 20,1,0,1);
         addComponentToGridWithX(stockLabel2, 0,1,0,2);
         addComponentToGridWithX(stockLabel3, 0,1,0,3);
-        price1 = new JLabel("$100.00", SwingConstants.CENTER);
-        price2 = new JLabel("$500.00", SwingConstants.CENTER);
-        price3 = new JLabel("$450.00", SwingConstants.CENTER);
+
+        JLabel price1 = new JLabel("$" + Double.toString(stock1.getPrice()), SwingConstants.CENTER);
+        JLabel price2 = new JLabel("$" + Double.toString(stock2.getPrice()), SwingConstants.CENTER);
+        JLabel price3 = new JLabel("$" + Double.toString(stock3.getPrice()), SwingConstants.CENTER);
         addComponentToGridWithX(price1, 20,1,1,1);
         addComponentToGridWithX(price2, 0,1,1,2);
         addComponentToGridWithX(price3, 0,1,1,3);
@@ -53,6 +59,21 @@ public class ViewStockPage extends JPanel {
         constraints.gridx = gridX; // always in first column
         constraints.gridy = gridY;
         this.add(component, constraints);
+    }
+
+    // MODIFIES: this
+    // EFFECTS:  initializes stocks with random fluctuation
+    private void initStocks() {
+        stock1 = new Stock("AMZN", 150 + getFluctuation());
+        stock2 = new Stock("META", 500 + getFluctuation());
+        stock3 = new Stock("NVDA", 700 + getFluctuation());
+    }
+
+    // EFFECTS: fluctuates stocks by + or - 5
+    private double getFluctuation() {
+        Random random = new Random();
+        double fluctuate = random.nextDouble() * 10 - 5; // fluctuates stock by + or -5
+        return Math.round(fluctuate * 100.0) / 100.0; // rounds to 2 decimal places
     }
 
 }

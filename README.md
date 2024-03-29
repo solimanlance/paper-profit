@@ -40,3 +40,17 @@ have in my portfolio and on hand. ✔
   portfolio to file ✔
 - As a user, when I start the application, I want to be given the option to load my 
 portfolio from file ✔
+
+# Instructions for Grader
+- You can generate the first required action related to the user story 
+"adding multiple Xs to a Y" by going into the Buy Stock menu and buying a stock 
+at your desired amount.
+- You can generate the second required action related to the user story
+"adding multiple Xs to a Y" by, after purchasing a stock, going into the
+View Portfolio menu and viewing your owned stock.
+- You can locate my visual component by starting the application; it's a 'splashscreen'
+loading page that is a gif.
+- You can save the state of my application by entering your desired name in the Login page, 
+going into the Save/Load menu, and clicking on the "Save" button.
+- You can reload the state of my application by entering a name (one that has a previous
+save state), going into the Save/Load menu, and clicking on the "Load" button.
