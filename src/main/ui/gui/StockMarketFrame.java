@@ -1,5 +1,7 @@
 package ui.gui;
 
+import model.EventLog;
+import model.Event;
 import model.Stock;
 import model.Trader;
 
@@ -7,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 // stock market GUI application
@@ -45,9 +49,10 @@ public class StockMarketFrame extends JFrame implements ActionListener {
         setGrid(mainTitle, userBalance, projectLabel);
         addButtons();
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setSize(WIDTH,HEIGHT);
         this.setTitle("Paper Profit");
+        this.addFrameListener();
         this.setVisible(true);
     }
 
@@ -274,6 +279,21 @@ public class StockMarketFrame extends JFrame implements ActionListener {
 
     public void setDynamicText(String msg) {
         dynamicText.setText(msg);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: prints out event log to console on system close, and closes frame.
+    public void addFrameListener() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                for (Event next : EventLog.getInstance()) {
+                    System.out.println(next);
+                }
+                setVisible(false);
+                System.exit(0);
+            }
+        });
     }
 
 }

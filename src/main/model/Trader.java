@@ -82,6 +82,8 @@ public class Trader implements Writable {
         double price = stock.getPrice() * buyAmount;
         funds -= price;
         portfolio.addStock(stock, buyAmount);
+        EventLog.getInstance().logEvent(new Event(this.name + " bought " + buyAmount + " share(s) of "
+                + stock.getSymbol()));
     }
 
     // REQUIRES: sellAmount <= s.getAmount()
@@ -91,6 +93,8 @@ public class Trader implements Writable {
         double price = stock.getPrice() * sellAmount;
         funds += price;
         portfolio.subtractStock(stock, sellAmount);
+        EventLog.getInstance().logEvent(new Event(this.name + " sold " + sellAmount + " share(s) of "
+                + stock.getSymbol()));
     }
 
     // REQUIRES: amount > 0, amount <= 5000
@@ -98,6 +102,7 @@ public class Trader implements Writable {
     // EFFECTS: adds amount of funds to trader's funds on hand
     public void addFunds(double amount) {
         funds += amount;
+        EventLog.getInstance().logEvent(new Event(this.name + " added " + "$" + amount + " to balance"));
     }
 
     @Override

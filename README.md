@@ -54,3 +54,39 @@ loading page that is a gif.
 going into the Save/Load menu, and clicking on the "Save" button.
 - You can reload the state of my application by entering a name (one that has a previous
 save state), going into the Save/Load menu, and clicking on the "Load" button.
+
+
+## Phase 4: Task 2
+
+Sample log:
+
+Tue Apr 02 20:54:28 PDT 2024 
+lance bought 3 share(s) of AMZN  
+Tue Apr 02 20:54:32 PDT 2024
+lance bought 5 share(s) of NVDA \
+Tue Apr 02 20:54:40 PDT 2024
+lance bought 2 share(s) of META \
+Tue Apr 02 20:54:44 PDT 2024
+lance added $5000.0 to balance \
+Tue Apr 02 20:54:49 PDT 2024
+lance sold 2 share(s) of AMZN \
+Tue Apr 02 20:54:51 PDT 2024
+lance sold 1 share(s) of META \
+Tue Apr 02 20:54:53 PDT 2024
+lance sold 3 share(s) of NVDA \
+Tue Apr 02 20:55:04 PDT 2024
+lance added $2500.0 to balance \
+Tue Apr 02 20:55:10 PDT 2024
+lance bought 7 share(s) of AMZN \
+Tue Apr 02 20:55:14 PDT 2024
+lance bought 4 share(s) of NVDA \
+Tue Apr 02 20:55:24 PDT 2024
+lance bought 11 share(s) of META \
+Tue Apr 02 20:55:33 PDT 2024
+lance sold 4 share(s) of NVDA \
+Tue Apr 02 20:55:38 PDT 2024
+lance sold 5 share(s) of AMZN \
+Tue Apr 02 20:55:41 PDT 2024
+lance sold 11 share(s) of META \
+Tue Apr 02 20:55:49 PDT 2024
+lance added $1225.0 to balance \

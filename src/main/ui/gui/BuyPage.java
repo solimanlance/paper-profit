@@ -1,7 +1,5 @@
 package ui.gui;
 
-import model.Trader;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
