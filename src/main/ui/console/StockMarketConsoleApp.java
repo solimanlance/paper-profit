@@ -14,15 +14,11 @@ import java.util.Scanner;
 // Stock market application
 public class StockMarketConsoleApp {
     private Trader trader;
-    private Stock stock1;
-    private Stock stock2;
-    private Stock stock3;
     private ArrayList<Stock> stockList;
     private Scanner input;
     private String jsonPath;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-
 
     public StockMarketConsoleApp() {
         askForName();
@@ -92,9 +88,9 @@ public class StockMarketConsoleApp {
         trader = new Trader(username);
         input = new Scanner(System.in);
 
-        stock1 = new Stock("AMZN", 150 + getFluctuation());
-        stock2 = new Stock("META", 500 + getFluctuation());
-        stock3 = new Stock("NVDA", 700 + getFluctuation());
+        Stock stock1 = new Stock("AMZN", 150 + getFluctuation());
+        Stock stock2 = new Stock("META", 500 + getFluctuation());
+        Stock stock3 = new Stock("NVDA", 700 + getFluctuation());
         stockList = new ArrayList<>();
         stockList.add(stock1);
         stockList.add(stock2);

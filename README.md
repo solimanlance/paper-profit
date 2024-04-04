@@ -55,7 +55,6 @@ going into the Save/Load menu, and clicking on the "Save" button.
 - You can reload the state of my application by entering a name (one that has a previous
 save state), going into the Save/Load menu, and clicking on the "Load" button.
 
-
 ## Phase 4: Task 2
 
 Sample log:
@@ -89,4 +88,26 @@ lance sold 5 share(s) of AMZN \
 Tue Apr 02 20:55:41 PDT 2024
 lance sold 11 share(s) of META \
 Tue Apr 02 20:55:49 PDT 2024
-lance added $1225.0 to balance \
+lance added $1225.0 to balance 
+
+## Phase 4: Task 3
+
+Looking at my UML diagram, I would refactor a couple of things about my project
+if I had more time to work on it. For one, I would remove all the duplicate code
+related to setting font styles and placing elements on the grid in the gui package; I would
+simply use one class (potentially a static one) that stores all the ui methods that I need,
+so code duplication is avoided. 
+
+Furthermore, I noticed that in my UML diagram a lot of classes have a relationship with
+the Stock class, particularly those in the ui package. If I had more time, I would
+try refactoring this to avoid the redundant fields in my ui classes and instead
+have the market as its own class, holding the stocks in the market. However,
+one drawback that this would lead to is that it would make it a bit more tricky
+to access these stocks in the market for viewing, buying, and selling.
+
+One last thing that I would change about my project if I had more time is to add
+exceptions to the methods in the model classes, instead of having a REQUIRES
+clause for various methods, such as the addStock and subtractStock
+methods in the Portfolio class. I would do this to make my program more robust, and less
+prone to potential bugs or errors. This would, however, make it a lot more tedious
+to test, although it would be greatly beneficial to the program.

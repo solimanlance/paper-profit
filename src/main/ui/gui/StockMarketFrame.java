@@ -23,9 +23,6 @@ public class StockMarketFrame extends JFrame implements ActionListener {
     private JLabel dynamicText;
     private ViewPortfolioPage portfolioPage;
     private Trader trader;
-    private Stock stock1;
-    private Stock stock2;
-    private Stock stock3;
     private ArrayList<Stock> stockList;
 
     public StockMarketFrame() {
@@ -199,9 +196,9 @@ public class StockMarketFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes stock market
     public void setMarket(Stock s1, Stock s2, Stock s3) {
-        stock1 = s1;
-        stock2 = s2;
-        stock3 = s3;
+        Stock stock1 = s1;
+        Stock stock2 = s2;
+        Stock stock3 = s3;
 
         stockList = new ArrayList<>();
         stockList.add(s1);
