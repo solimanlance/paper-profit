@@ -1,0 +1,9 @@
+{
+   "portfolio": [{
+      "symbol": "AMZN",
+      "amount": 2,
+      "price": 145.78
+   }],
+   "name": "la",
+   "funds": 4708.44
+}

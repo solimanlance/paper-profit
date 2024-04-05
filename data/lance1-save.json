@@ -1,0 +1,21 @@
+{
+   "portfolio": [
+      {
+         "symbol": "AMZN",
+         "amount": 29,
+         "price": 145.23
+      },
+      {
+         "symbol": "NVDA",
+         "amount": 6,
+         "price": 700.88
+      },
+      {
+         "symbol": "META",
+         "amount": 2,
+         "price": 495.34
+      }
+   ],
+   "name": "lance1",
+   "funds": 2184736.92
+}
